@@ -1,0 +1,9 @@
+<Background>
+    
+    <Texture id="0" file="TestLevelFarBackground.png" z_level="0" pos_x="0" pos_y="0" parallax="0.8" />
+    <Texture id="1" file="TestLevelFloor0.png" z_level="1" pos_x="0" pos_y="0" />
+    <Texture id="2" file="TestLevelFloor1.png" z_level="1" pos_x="50" pos_y="0" />
+    <Texture id="3" file="TestLevelFloor2.png" z_level="1" pos_x="100" pos_y="0" />
+    <Texture id="4" file="TestLevelFloor3.png" z_level="1" pos_x="150" pos_y="0" />
+
+</Background>

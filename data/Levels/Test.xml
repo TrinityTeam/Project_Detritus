@@ -1,0 +1,24 @@
+<Level>
+
+<Name>Test Level</Name>
+
+<Size x="200" y="20" />
+
+<BackgroundSprites>
+    <Sprite id="0" file="Sprites/LevelBackgrounds/TestLevelBackground.xml" start_x="-100" start_y="10" end_x="100" end_y="-10" z_level="0"/>
+</BackgroundSprites>
+
+<Floor>
+    <Vertex x="0" y="0" />
+    <Vertex x="-80" y="0" />
+    <Vertex x="-80" y="5" />
+    <Vertex x="-70" y="0" />
+    <Vertex x="200" y="10" />
+</Floor>
+
+<Entities>
+    <Entity name="PC" pos_x="-190" pos_y="1" />
+
+</Entities>
+
+</Level>

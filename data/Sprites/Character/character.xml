@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<TextureAtlas imagePath="General Zirix Starstrider.png">
+    <SubTexture name="Stand0"  x="1"   y="81" width="79" height="79" />
+    <SubTexture name="Stand1"  x="82"  y="81" width="79" height="79" />
+    <SubTexture name="Stand2"  x="163" y="81" width="79" height="79" />
+    <SubTexture name="Stand3"  x="244" y="81" width="79" height="79" />
+    <SubTexture name="Stand4"  x="325" y="81" width="79" height="79" />
+    <SubTexture name="Stand5"  x="406" y="81" width="79" height="79" />
+    <SubTexture name="Stand6"  x="487" y="81" width="79" height="79" />
+    <SubTexture name="Stand7"  x="568" y="81" width="79" height="79" />
+    <SubTexture name="Stand8"  x="649" y="81" width="79" height="79" />
+    <SubTexture name="Stand9"  x="730" y="81" width="79" height="79" />
+    <SubTexture name="Stand10" x="811" y="81" width="79" height="79" />
+    <SubTexture name="Stand11" x="892" y="81" width="79" height="79" />
+
+    <SubTexture name="Run0" x="1"   y="162" width="79" height="79" />
+    <SubTexture name="Run1" x="82"  y="162" width="79" height="79" />
+    <SubTexture name="Run2" x="163" y="162" width="79" height="79" />
+    <SubTexture name="Run3" x="244" y="162" width="79" height="79" />
+    <SubTexture name="Run4" x="325" y="162" width="79" height="79" />
+    <SubTexture name="Run5" x="406" y="162" width="79" height="79" />
+    <SubTexture name="Run6" x="487" y="162" width="79" height="79" />
+    <SubTexture name="Run7" x="568" y="162" width="79" height="79" />
+    
+    <SubTexture name="Attack0"  x="1"   y="314" width="79" height="79" />
+    <SubTexture name="Attack1"  x="82"  y="314" width="79" height="79" />
+    <SubTexture name="Attack2"  x="163" y="314" width="79" height="79" />
+    <SubTexture name="Attack3"  x="244" y="314" width="79" height="79" />
+    <SubTexture name="Attack4"  x="325" y="314" width="79" height="79" />
+    <SubTexture name="Attack5"  x="406" y="314" width="79" height="79" />
+    <SubTexture name="Attack6"  x="487" y="314" width="79" height="79" />
+    <SubTexture name="Attack7"  x="568" y="314" width="79" height="79" />
+    <SubTexture name="Attack8"  x="649" y="314" width="79" height="79" />
+    <SubTexture name="Attack9"  x="730" y="314" width="79" height="79" />
+    <SubTexture name="Attack10" x="811" y="314" width="79" height="79" />
+    
+    <SubTexture name="Death0"  x="1"    y="405" width="79" height="79" />
+    <SubTexture name="Death1"  x="82"   y="405" width="79" height="79" />
+    <SubTexture name="Death2"  x="163"  y="405" width="79" height="79" />
+    <SubTexture name="Death3"  x="244"  y="405" width="79" height="79" />
+    <SubTexture name="Death4"  x="325"  y="405" width="79" height="79" />
+    <SubTexture name="Death5"  x="406"  y="405" width="79" height="79" />
+    <SubTexture name="Death6"  x="487"  y="405" width="79" height="79" />
+    <SubTexture name="Death7"  x="568"  y="405" width="79" height="79" />
+    <SubTexture name="Death8"  x="649"  y="405" width="79" height="79" />
+    <SubTexture name="Death9"  x="730"  y="405" width="79" height="79" />
+    <SubTexture name="Death10" x="811"  y="405" width="79" height="79" />
+    <SubTexture name="Death11" x="892"  y="405" width="79" height="79" />
+    <SubTexture name="Death12" x="973"  y="405" width="79" height="79" />
+    <SubTexture name="Death13" x="1054" y="405" width="79" height="79" />
+
+</TextureAtlas>
