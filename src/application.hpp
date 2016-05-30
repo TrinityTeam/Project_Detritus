@@ -1,6 +1,5 @@
 #pragma once
 #include <Urho3D/Engine/Application.h>
-#include <functional>
 #include <vector>
 namespace Urho3D {
 class Node;

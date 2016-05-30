@@ -4,13 +4,8 @@
     "size": {"x": 200, "y": 20},
 
     "background_sprites": [
-        {
-            "id": "0", 
-            "file": "Sprites/LevelBackgrounds/TestLevelBackground.xml",
-            "start": {"x": -100, "y": 10},
-            "end": {"x": 100, "y": -10},
-            "z_level": 0
-        }
+            {"id": 1, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": 0, "y": 1.5}, "size": {"x":1, "y":1}}
+
     ],
 
     "floor": [
@@ -27,7 +22,7 @@
     "entities": [
         {
             "type":"PC",
-            "position": {"x": -190, "y": 1}
+            "position": {"x": 0, "y": 5}
         }
     ]
 }

@@ -1,9 +1,10 @@
 {
     "textures":[
     {"id": 0, "file": "TestLevelFarBackground.png", "z_level": 0, "position": {"x": 0, "y": 0}, "parallax": 0.8},
-    {"id": 1, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": 0", "y": 0},
-    {"id": 2, "file": "TestLevelFloor1.png", "z_level": 1, "position": {"x": 50", "y": 0},
-    {"id": 3, "file": "TestLevelFloor2.png", "z_level": 1, "position": {"x": 100", "y": 0},
-    {"id": 4, "file": "TestLevelFloor3.png", "z_level": 1, "position": {"x": 150, "y": 0}
+    {"id": 1, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": 0, "y": 0}},
+    {"id": 2, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": 10, "y": 0}},
+    {"id": 3, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": -10, "y": -1}},
+    {"id": 4, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": -20, "y": -2}}
     ]
+    
 }

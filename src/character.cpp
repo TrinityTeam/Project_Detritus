@@ -94,23 +94,21 @@ bool Character::isInAir() const {
     Urho3D::PhysicsRaycastResult2D resultLeft;
     Urho3D::PhysicsRaycastResult2D resultRight;
     auto shape = GetNode()->GetComponent<Urho3D::CollisionBox2D>();
-    auto body = GetNode()->GetComponent<Urho3D::RigidBody2D>();
     auto world = GetScene()->GetComponent<Urho3D::PhysicsWorld2D>();
-    world->RaycastSingle(result, GetNode()->GetPosition2D(),
-                         GetNode()->GetPosition2D() +
-                         world->GetGravity());
-    world->RaycastSingle(resultLeft, GetNode()->GetPosition2D() + Urho3D::Vector2 {shape->GetSize().x_/2., 0},
-                         GetNode()->GetPosition2D() + Urho3D::Vector2 {shape->GetSize().x_/2., 0}+
-                         world->GetGravity());
-    world->RaycastSingle(resultRight, GetNode()->GetPosition2D() - Urho3D::Vector2 {shape->GetSize().x_/2., 0},
-                         GetNode()->GetPosition2D() - Urho3D::Vector2 {shape->GetSize().x_/2., 0} +
-                         world->GetGravity());
+    auto position = GetNode()->GetPosition2D();
+    auto halfWidth = Urho3D::Vector2 {shape->GetSize().x_/2., 0};
+    world->RaycastSingle(result, position,
+                         position + world->GetGravity());
+    world->RaycastSingle(resultLeft, position + halfWidth,
+                         (position + halfWidth) + world->GetGravity());
+    world->RaycastSingle(resultRight, position - halfWidth,
+                         (position - halfWidth) + world->GetGravity());
 
-    if(result.distance_ - shape->GetSize().y_/2. <= 0.1 or
-       resultLeft.distance_ - shape->GetSize().y_/2. <= 0.1 or
-       resultRight.distance_ - shape->GetSize().y_/2. <= 0.1) {
+    auto halfHeight = shape->GetSize().y_/2.;
+    if((result.body_ != nullptr and result.distance_ - halfHeight <= 0.05) or
+       (resultLeft.body_ != nullptr and resultLeft.distance_ - halfHeight <= 0.05) or
+       (resultRight.body_ != nullptr and resultRight.distance_ - halfHeight <= 0.05)) {
         return false;
-
 
     } else {
         return true;

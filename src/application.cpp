@@ -71,6 +71,8 @@ void Application::Start() {
     SubscribeToEvent(Urho3D::E_POSTRENDERUPDATE,
                      [this](Urho3D::StringHash,
                             Urho3D::VariantMap&) {
+                         this->scene->GetComponent<Urho3D::DebugRenderer>()->AddCross({0, 0}, 10, Urho3D::Color::RED);
+                         this->scene->GetComponent<Urho3D::DebugRenderer>()->AddBoundingBox({{-0.5, 1}, {0.5, 2}}, Urho3D::Color::BLUE);
                          this->scene->GetComponent<Urho3D::PhysicsWorld2D>()->DrawDebugGeometry();
                      });
 }
@@ -84,14 +86,15 @@ void Application::Stop() {}
 void Application::update(float) {
     auto uiRoot = GetSubsystem<Urho3D::UI>()->GetRoot();
     auto character = scene->GetChild("Character");
+    auto input = GetSubsystem<Urho3D::Input>();
 
     Urho3D::String info =
-            Urho3D::String {character->GetPosition2D()} + "\n" +
+            Urho3D::String {input->GetMousePosition()} + "\n" +
             Urho3D::String {character->GetComponent<Character>()->isInAir()} + "\n" +
             Urho3D::String {character->GetComponent<Character>()->getLinearVelocity()};
     auto text = dynamic_cast<Urho3D::Text*>(uiRoot->GetChild(Urho3D::String{"Text"}));
     text->SetText(info);
-    auto input = GetSubsystem<Urho3D::Input>();
+
     if(input->GetScancodeDown(input->GetScancodeFromName("Escape"))) {
         engine_->Exit();
     }
@@ -130,12 +133,13 @@ void Application::initUI() {
 void Application::initScene() {
     scene = new Urho3D::Scene {GetContext()};
     scene->CreateComponent<Urho3D::Octree>();
-    scene->CreateComponent<Urho3D::DebugRenderer>();
-    scene->CreateComponent<Urho3D::PhysicsWorld2D>();
+    Urho3D::DebugRenderer* debug = scene->CreateComponent<Urho3D::DebugRenderer>();
+
+    Urho3D::PhysicsWorld2D* world = scene->CreateComponent<Urho3D::PhysicsWorld2D>();
 
     GetSubsystem<Urho3D::Renderer>()->GetDefaultZone()->SetFogColor({1, 1, 1});
 
-    auto spawnerNode = GetContext()->CreateObject<Urho3D::Node>();//scene->CreateChild("Spawner");
+    auto spawnerNode = GetContext()->CreateObject<Urho3D::Node>();
     spawnerNode->SetName("Spawner");
     auto spawner = spawnerNode->CreateComponent<ObstacleSpawner>();
     spawner->addObstacle<Obstacle>(2);
@@ -147,11 +151,12 @@ void Application::initScene() {
 
     auto characterNode = scene->CreateChild("Character");
 
-    cameraNode = characterNode->CreateChild("Camera");
+    cameraNode = scene->CreateChild("Camera");
     auto camera = cameraNode->CreateComponent<Urho3D::Camera>();
     camera->SetFarClip(500.0f);
     camera->SetOrthographic(true);
-    camera->SetOrthoSize({16/9.*3, 3});
+    camera->SetOrthoSize(6);
+    cameraNode->Translate2D({0, 2});
 
     Urho3D::SharedPtr<Urho3D::Viewport> viewport
         { new Urho3D::Viewport {GetContext(), scene, camera} };
@@ -161,6 +166,9 @@ void Application::initScene() {
 
 
 void Application::readLevelFromJSON(Urho3D::JSONFile* file) {
+    Urho3D::Graphics* graphics = GetSubsystem<Urho3D::Graphics>();
+    Urho3D::Camera* camera = cameraNode->GetComponent<Urho3D::Camera>();
+
     auto root = file->GetRoot();
     if(scene.Null()) {
         initScene();
@@ -172,9 +180,41 @@ void Application::readLevelFromJSON(Urho3D::JSONFile* file) {
     createFloor("Floor", floorVertices);
     for(auto& entity: root.Get("entities").GetArray()) {
         if(entity.Get("type").GetString() == "PC" ) {
-            scene->GetChild("Character")->Translate2D({0, 10});
-            scene->GetChild("Character")->CreateComponent<Character>();
+            auto position = entity.Get("position");
+            auto characterNode = scene->GetChild("Character");
+            characterNode->Translate2D({position.Get("x").GetFloat(),
+                                        position.Get("y").GetFloat()});
+            characterNode->CreateComponent<Character>();
         }
+    }
+
+    auto backgroundRoot = scene->CreateChild("Background");
+    for(auto& spriteData: root.Get("background_sprites").GetArray()) {
+        auto textureNode = backgroundRoot->
+                              CreateChild(spriteData.Get("id").GetString());
+        auto sprite = GetSubsystem<Urho3D::ResourceCache>()->GetResource
+                      <Urho3D::Sprite2D>("Sprites/LevelBackgrounds/"+
+                                         spriteData.Get("file").GetString());
+        auto staticSprite = textureNode->CreateComponent<Urho3D::StaticSprite2D>();
+        staticSprite->SetSprite(sprite);
+        //staticSprite->SetLayer(spriteData.Get("z_level").GetInt());
+
+        auto size = spriteData.Get("size");
+        const Urho3D::IntRect& rectangle = sprite->GetRectangle();
+        double sizeX = size.Get("x").GetFloat() * graphics->GetWidth() /
+                       (camera->GetOrthoSize() *
+                        (graphics->GetWidth() / (float)graphics->GetHeight()) * 2);
+        double sizeY = size.Get("y").GetFloat() * graphics->GetHeight() /
+                       (camera->GetOrthoSize() * 2);
+        URHO3D_LOGINFO(Urho3D::String { Urho3D::Vector2 (sizeX, sizeY) });
+        URHO3D_LOGINFO(Urho3D::String { Urho3D::Vector2 (graphics->GetWidth(), graphics->GetHeight()) });
+        URHO3D_LOGINFO(Urho3D::String { camera->GetOrthoSize() });
+        textureNode->SetScale2D(sizeX / rectangle.Width(),
+                                sizeY / rectangle.Height());
+
+        auto position = spriteData.Get("position");
+        textureNode->SetPosition2D({position.Get("x").GetFloat(),
+                                    position.Get("y").GetFloat()});
     }
 }
 
