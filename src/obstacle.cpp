@@ -32,7 +32,7 @@ void Obstacle::Start() {
 
 
 
-void Obstacle::FixedUpdate(float timestep) {
+void Obstacle::FixedUpdate(float) {
     if(GetNode()->GetPosition().x_ < -5) {
         GetNode()->RemoveComponent<Urho3D::StaticSprite2D>();
         GetNode()->RemoveComponent<Urho3D::RigidBody2D>();

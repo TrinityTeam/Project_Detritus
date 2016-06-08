@@ -4,8 +4,11 @@
     "size": {"x": 200, "y": 20},
 
     "background_sprites": [
-            {"id": 1, "file": "TestLevelFloor0.png", "z_level": 1, "position": {"x": 0, "y": 1.5}, "size": {"x":1, "y":1}}
-
+            {"id": 0, "file": "TestLevelFloor0.png", "layer": 1, "position": {"x": -30.5, "y": 5}, "size": {"x":1, "y":10}},
+            {"id": 1, "file": "TestLevelFloor0.png", "layer": 1, "position": {"x": -25, "y": -0.5}, "size": {"x":10, "y":1}},
+            {"id": 2, "file": "TestLevelFloor0.png", "layer": 1, "position": {"x": -15, "y": 0.5}, "size": {"x":10, "y":1}},
+            {"id": 3, "file": "TestLevelFloor0.png", "layer": 1, "position": {"x": 5, "y": 1.5}, "size": {"x":30, "y":1}},
+            {"id": 4, "file": "TestLevelFloor0.png", "layer": 1, "position": {"x": 20.5, "y": 6}, "size": {"x":1, "y":8}}
     ],
 
     "floor": [
@@ -23,6 +26,10 @@
         {
             "type":"PC",
             "position": {"x": 0, "y": 5}
+        },
+        {
+            "type":"Beater",
+            "position":{"x": 3, "y": 10}
         }
     ]
 }

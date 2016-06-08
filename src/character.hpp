@@ -1,25 +1,17 @@
 #pragma once
-#include <Urho3D/Scene/LogicComponent.h>
-namespace Urho3D {
-class RigidBody2D;
-class PhysicsWorld2D;
-}
+#include "creature.hpp"
 
 
 
-class Character: public Urho3D::LogicComponent {
+class Character: public Creature {
 
-    URHO3D_OBJECT(Character, LogicComponent)
+    URHO3D_OBJECT(Character, Creature)
+
 
 public:
     Character(Urho3D::Context* context);
 
-    virtual void Start() override;
-    virtual void FixedUpdate(float timestep) override;
+protected:
+    void update(float timestep) override;
 
-    bool isInAir() const;
-
-    Urho3D::Vector2 getLinearVelocity() const;
-
-private:
 };

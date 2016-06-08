@@ -2,8 +2,6 @@ project("Project Detritus")
 
 cmake_minimum_required (VERSION 2.8.6)
 
-set(CMAKE_CXX_FLAGS "-std=c++14 -Wall -Wextra -Wno-strict-aliasing")
-
 if (COMMAND cmake_policy)
     cmake_policy (SET CMP0003 NEW)
     if (CMAKE_VERSION VERSION_GREATER 2.8.12 OR CMAKE_VERSION VERSION_EQUAL 2.8.12)
@@ -18,6 +16,8 @@ if (COMMAND cmake_policy)
     endif ()
 endif ()
 
+set(CMAKE_CXX_FLAGS "-std=c++14 -Wall -Wextra -Wno-strict-aliasing")
+
 set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
 include (Urho3D-CMake-common)
@@ -27,7 +27,6 @@ include_directories (${URHO3D_INCLUDE_DIRS})
 
 set(TARGET_NAME "Project Detritus")
 
-define_source_files(EXTRA_CPP_FILES application character obstacle)
+define_source_files(EXTRA_CPP_FILES application character animation creature log sprite level)
 set_output_directories("${CMAKE_SOURCE_DIR}/../build")
 setup_main_executable()
-

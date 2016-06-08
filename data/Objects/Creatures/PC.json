@@ -1,0 +1,8 @@
+{
+    "spritesheet":"Sprites/Character/character.scml",
+    "animation_speed": 1.5,
+    "layer": 1,
+    "friction": 10,
+    "density": 1,
+    "size": {"width":0.5, "height": 0.46}
+}

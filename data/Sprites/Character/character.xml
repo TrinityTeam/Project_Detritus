@@ -23,17 +23,17 @@
     <SubTexture name="Run6" x="487" y="162" width="79" height="79" />
     <SubTexture name="Run7" x="568" y="162" width="79" height="79" />
     
-    <SubTexture name="Attack0"  x="1"   y="314" width="79" height="79" />
-    <SubTexture name="Attack1"  x="82"  y="314" width="79" height="79" />
-    <SubTexture name="Attack2"  x="163" y="314" width="79" height="79" />
-    <SubTexture name="Attack3"  x="244" y="314" width="79" height="79" />
-    <SubTexture name="Attack4"  x="325" y="314" width="79" height="79" />
-    <SubTexture name="Attack5"  x="406" y="314" width="79" height="79" />
-    <SubTexture name="Attack6"  x="487" y="314" width="79" height="79" />
-    <SubTexture name="Attack7"  x="568" y="314" width="79" height="79" />
-    <SubTexture name="Attack8"  x="649" y="314" width="79" height="79" />
-    <SubTexture name="Attack9"  x="730" y="314" width="79" height="79" />
-    <SubTexture name="Attack10" x="811" y="314" width="79" height="79" />
+    <SubTexture name="Attack0"  x="1"   y="243" width="79" height="79" />
+    <SubTexture name="Attack1"  x="82"  y="243" width="79" height="79" />
+    <SubTexture name="Attack2"  x="163" y="243" width="79" height="79" />
+    <SubTexture name="Attack3"  x="244" y="243" width="79" height="79" />
+    <SubTexture name="Attack4"  x="325" y="243" width="79" height="79" />
+    <SubTexture name="Attack5"  x="406" y="243" width="79" height="79" />
+    <SubTexture name="Attack6"  x="487" y="243" width="79" height="79" />
+    <SubTexture name="Attack7"  x="568" y="243" width="79" height="79" />
+    <SubTexture name="Attack8"  x="649" y="243" width="79" height="79" />
+    <SubTexture name="Attack9"  x="730" y="243" width="79" height="79" />
+    <SubTexture name="Attack10" x="811" y="243" width="79" height="79" />
     
     <SubTexture name="Death0"  x="1"    y="405" width="79" height="79" />
     <SubTexture name="Death1"  x="82"   y="405" width="79" height="79" />
