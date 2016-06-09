@@ -12,6 +12,9 @@
 #include <Urho3D/Urho2D/SpriterData2D.h>
 #include <Urho3D/UI/Text3D.h>
 #include <Urho3D/UI/Font.h>
+#include <Urho3D/Urho2D/ParticleEffect2D.h>
+#include <Urho3D/Urho2D/ParticleEmitter2D.h>
+#include <Urho3D/Graphics/DebugRenderer.h>
 #include "animation.hpp"
 #include "log.hpp"
 
@@ -25,14 +28,14 @@ Creature::Creature(Urho3D::Context* context):
 
 
 void Creature::Start() {
+    auto cache = GetSubsystem<Urho3D::ResourceCache>();
     GetNode()->CreateComponent<cAnimation>();
     GetNode()->CreateComponent<Urho3D::RigidBody2D>();
     GetNode()->CreateComponent<Urho3D::CollisionBox2D>();
     auto databar = GetNode()->CreateChild("Databar");
     Urho3D::Text3D* text = databar->CreateComponent<Urho3D::Text3D>();
     text->SetText("Someone");
-    auto cache = GetSubsystem<Urho3D::ResourceCache>();
-    text->SetFont(cache->GetResource<Urho3D::Font>("Fonts/Anonymous Pro.ttf"), 8);
+    text->SetFont(cache->GetResource<Urho3D::Font>("Fonts/Anonymous Pro.ttf"));
     text->SetColor(Urho3D::Color::RED);
     text->SetEffectColor({0.5f, 0.5f, 0.5f});
     text->SetAlignment(Urho3D::HA_CENTER, Urho3D::VA_CENTER);
@@ -44,6 +47,11 @@ void Creature::FixedUpdate(float timestep) {
     update(timestep);
 
     auto animation = GetNode()->GetComponent<cAnimation>();
+
+    if(state == State::Strike and not striked and
+       animation->getCurrentTime() > strikeDelay) {
+        resumeStrike();
+    }
 
     if(animation->isOver() and not animation->isLooping()) {
         setState(pendingState);
@@ -179,25 +187,54 @@ void Creature::moveWithoutMaxSpeedLimitation(Urho3D::Vector2 dir,
 void Creature::strike() {
     if(not isCanActing()) return;
     setState(State::Strike);
-    auto world = GetScene()->GetComponent<Urho3D::PhysicsWorld2D>();
-    Urho3D::PhysicsRaycastResult2D result;
-    auto sprite = GetNode()->GetComponent<cAnimation>();
-    world->RaycastSingle(result, GetNode()->GetPosition2D(),
-                         GetNode()->GetPosition2D() +
-                         (Urho3D::Vector2::RIGHT * (sprite->GetFlipX()?-1:1)));
-    if(result.body_ == nullptr) return;
-    auto targetNode = result.body_->GetNode();
+    striked = false;
+}
 
-    if(targetNode->HasComponent<Creature>()) {
-        targetNode->GetComponent<Creature>()->recieveDamage(this);
+
+
+void Creature::resumeStrike() {
+    auto world = GetScene()->GetComponent<Urho3D::PhysicsWorld2D>();
+    Urho3D::PODVector<Urho3D::PhysicsRaycastResult2D> results;
+    auto sprite = GetNode()->GetComponent<cAnimation>();
+    auto attackLineEnd = GetNode()->CreateChild("Attack Line End");
+    attackLineEnd->SetPosition2D({0, meleeAttackRange});
+    auto side = sprite->GetFlipX() ? 1 : -1;
+    auto angle = side * meleeAttackFoV / 10;
+    for(uint16_t segment = 0; segment < 10; segment++) {
+        attackLineEnd->RotateAround2D(GetNode()->GetPosition2D(),
+                                      angle, Urho3D::TS_WORLD);
+        //GetScene()->GetComponent<Urho3D::DebugRenderer>()->AddLine(
+        //            GetNode()->GetWorldPosition(),
+        //            attackLineEnd->GetWorldPosition(),
+        //            Urho3D::Color::RED);
+        world->Raycast(results, GetNode()->GetPosition2D(),
+                                attackLineEnd->GetWorldPosition2D());
     }
+    if(results.Empty()) return;
+    for(auto& result: results) {
+        auto targetNode = result.body_->GetNode();
+
+        if(targetNode->HasComponent<Creature>()) {
+            targetNode->GetComponent<Creature>()->recieveDamage(this);
+        }
+    }
+
+    striked = true;
 }
 
 
 
 void Creature::recieveDamage(const Creature* attacker) {
+    auto cache = GetSubsystem<Urho3D::ResourceCache>();
+    auto particleEffect = cache->GetResource<Urho3D::ParticleEffect2D>("Particle/sun.pex");
+    auto particleNode = GetNode()->CreateChild("ParticleEmitter2D");
+    auto particleEmitter = particleNode->CreateComponent<Urho3D::ParticleEmitter2D>();
+    particleEmitter->SetEffect(particleEffect);
+    particleNode->SetPosition({0, 0, -10});
+
     moveWithoutMaxSpeedLimitation(GetNode()->GetPosition2D() -
-                                  attacker->GetNode()->GetPosition2D(), 5);
+                                  attacker->GetNode()->GetPosition2D() +
+                                  Urho3D::Vector2 {0, 0.5}, 0.5);
     setState(State::Decay);
 }
 

@@ -44,7 +44,7 @@ void Character::update(float) {
     if(input->GetScancodeDown(input->GetScancodeFromName("D"))) {
         direction.x_ += 1;
     }
-    if(direction.x_ != 0) {
+    if(isCanActing() and direction.x_ != 0) {
         GetNode()->GetComponent<cAnimation>()
                 ->SetFlipX(direction.x_ < 0);
     }

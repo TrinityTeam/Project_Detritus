@@ -10,6 +10,13 @@ cAnimation::cAnimation(Urho3D::Context* context):
 
 
 
+std::chrono::milliseconds cAnimation::getCurrentTime() const {
+    using namespace std::chrono;
+    return milliseconds {static_cast<int64_t>(spriterInstance_->GetCurrentTime()*1000)};
+}
+
+
+
 bool cAnimation::isOver() const {
     return spriterInstance_->GetCurrentTime() >= spriterInstance_->GetAnimation()->length_;
 }

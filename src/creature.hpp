@@ -1,6 +1,7 @@
 #pragma once
 #include <Urho3D/Scene/LogicComponent.h>
 #include <map>
+#include <chrono>
 
 
 
@@ -39,8 +40,13 @@ private:
     void moveWithoutMaxSpeedLimitation(Urho3D::Vector2 dir,
                                        float speedMultiplier = 1);
     bool checkGroundBeneath(Urho3D::Vector2 start) const; // related to creature node
+    void resumeStrike();
 
     Urho3D::Vector2 acceleration {1, 8};
+    std::chrono::milliseconds strikeDelay {460};
+    const float meleeAttackFoV {120};
+    const float meleeAttackRange {0.4};
+    bool striked {false};
     State state {State::Idle};
     State pendingState {State::Idle};
     float maxSpeed {3.f};

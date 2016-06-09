@@ -1,5 +1,6 @@
 #pragma once
 #include <Urho3D/Urho2D/AnimatedSprite2D.h>
+#include <chrono>
 
 
 
@@ -12,6 +13,6 @@ public:
 
     bool isOver() const;
     bool isLooping() const;
-
+    std::chrono::milliseconds getCurrentTime() const;
 
 };
