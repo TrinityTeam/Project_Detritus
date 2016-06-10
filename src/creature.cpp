@@ -226,11 +226,8 @@ void Creature::resumeStrike() {
 
 void Creature::recieveDamage(const Creature* attacker) {
     auto cache = GetSubsystem<Urho3D::ResourceCache>();
-    auto particleEffect = cache->GetResource<Urho3D::ParticleEffect2D>("Particle/sun.pex");
-    auto particleNode = GetNode()->CreateChild("ParticleEmitter2D");
-    auto particleEmitter = particleNode->CreateComponent<Urho3D::ParticleEmitter2D>();
-    particleEmitter->SetEffect(particleEffect);
-    particleNode->SetPosition({0, 0, -10});
+    auto emitter = GetNode()->GetOrCreateComponent<Urho3D::ParticleEmitter2D>();
+    emitter->SetEffect(cache->GetResource<Urho3D::ParticleEffect2D>("Particles/sun.pex"));
 
     moveWithoutMaxSpeedLimitation(GetNode()->GetPosition2D() -
                                   attacker->GetNode()->GetPosition2D() +

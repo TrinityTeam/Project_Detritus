@@ -21,6 +21,8 @@
 #include <Urho3D/Urho2D/CollisionChain2D.h>
 #include <Urho3D/Urho2D/PhysicsWorld2D.h>
 #include <Urho3D/Scene/Scene.h>
+#include <Urho3D/Urho2D/ParticleEffect2D.h>
+#include <Urho3D/Urho2D/ParticleEmitter2D.h>
 #include "character.hpp"
 #include "obstacle_spawner.hpp"
 #include "obstacle.hpp"
@@ -77,7 +79,7 @@ void Application::Start() {
     SubscribeToEvent(Urho3D::E_POSTRENDERUPDATE,
                      [this](Urho3D::StringHash,
                             Urho3D::VariantMap&) {
-                         auto debugRenderer = this->scene->GetComponent<Urho3D::DebugRenderer>();
+                         /*auto debugRenderer = this->scene->GetComponent<Urho3D::DebugRenderer>();
                          debugRenderer->AddCross({0, 0}, 10, Urho3D::Color::RED);
                          debugRenderer->AddBoundingBox({{-0.5, -1}, {0.5, 0}}, Urho3D::Color::BLUE);
                          debugRenderer->AddBoundingBox({{-0.5, 0}, {0.5, 1}}, Urho3D::Color::BLUE);
@@ -85,7 +87,7 @@ void Application::Start() {
                          debugRenderer->AddBoundingBox({{-0.5, 2}, {0.5, 3}}, Urho3D::Color::BLUE);
                          debugRenderer->AddBoundingBox({{-0.5, 3}, {0.5, 4}}, Urho3D::Color::BLUE);
                          debugRenderer->AddBoundingBox({{-0.5, 4}, {0.5, 5}}, Urho3D::Color::BLUE);
-                         //this->scene->GetComponent<Urho3D::PhysicsWorld2D>()->DrawDebugGeometry();
+                         *///this->scene->GetComponent<Urho3D::PhysicsWorld2D>()->DrawDebugGeometry();
                      });
 }
 
@@ -149,18 +151,6 @@ void Application::initScene() {
     scene->CreateComponent<Urho3D::DebugRenderer>();
     scene->CreateComponent<Urho3D::PhysicsWorld2D>();
 
-    GetSubsystem<Urho3D::Renderer>()->GetDefaultZone()->SetFogColor({1, 1, 1});
-
-    auto spawnerNode = GetContext()->CreateObject<Urho3D::Node>();
-    spawnerNode->SetName("Spawner");
-    auto spawner = spawnerNode->CreateComponent<ObstacleSpawner>();
-    spawner->addObstacle<Obstacle>(2);
-    spawner->addObstacle<Obstacle>(4);
-    spawner->addObstacle<Obstacle>(6);
-    spawner->start();
-
-    scene->AddChild(spawnerNode);
-
     auto characterNode = scene->CreateChild("Character");
 
     cameraNode = characterNode->CreateChild("Camera");
@@ -168,12 +158,19 @@ void Application::initScene() {
     camera->SetFarClip(500.0f);
     camera->SetOrthographic(true);
     camera->SetOrthoSize(3);
+    //camera->SetOrthoSize((float)GetSubsystem<Urho3D::Graphics>()->GetHeight() * Urho3D::PIXEL_SIZE);
+    //camera->SetZoom(std::min((float)GetSubsystem<Urho3D::Graphics>()->GetWidth() / 1280.0f,
+    //                         (float)GetSubsystem<Urho3D::Graphics>()->GetHeight() / 800.0f));
+    // Set zoom according to user's resolution to ensure full visibility
+    // (initial zoom (1.2) is set for full visibility at 1280x800 resolution)
 
+    // Set up a viewport to the Renderer subsystem so that the 3D scene can be seen
     Urho3D::SharedPtr<Urho3D::Viewport> viewport
         { new Urho3D::Viewport {GetContext(), scene, camera} };
     GetSubsystem<Urho3D::Renderer>()->SetViewport(0, viewport);
 
     GetSubsystem<Urho3D::Input>()->SetMouseVisible(true);
+
 }
 
 
